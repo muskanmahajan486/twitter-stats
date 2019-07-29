@@ -1,0 +1,3 @@
+<configuration>
+    <logger name="twitter4j" level="WARN" />
+</configuration>
