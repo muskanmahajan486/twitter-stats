@@ -13,6 +13,7 @@ public class Main {
         TwitterAPI api = new TwitterAPI(new TwitterFactory(configureWithAccessToken()).getInstance());
         TwitterStats stats = new TwitterStats(api);
 
+        System.out.println(stats.showUser("dervis_m"));
     }
 
 }

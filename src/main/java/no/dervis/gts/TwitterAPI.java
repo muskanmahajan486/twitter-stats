@@ -23,7 +23,6 @@ public class TwitterAPI {
     }
 
     List<User> getFollowers(final String screenName) {
-
         List<PagableResponseList<User>> list = followers(screenName, -1, new LinkedList<>());
 
         return list
