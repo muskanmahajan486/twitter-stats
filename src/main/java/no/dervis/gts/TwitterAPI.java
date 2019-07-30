@@ -14,6 +14,8 @@ public class TwitterAPI {
 
     private final Twitter twitter;
 
+    private int maxPageSize = 200;
+
     public TwitterAPI(Twitter twitter) {
         this.twitter = twitter;
     }
@@ -47,7 +49,7 @@ public class TwitterAPI {
         }
 
         PagableResponseList<User> page = callTwitterAPI(
-                () -> twitter.getFollowersList(screenName, cursor, 200),
+                () -> twitter.getFollowersList(screenName, cursor, maxPageSize),
                 "Cannot get followers list");
 
         list.add(page);
@@ -71,5 +73,9 @@ public class TwitterAPI {
         }
     }
 
+    public TwitterAPI setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
+        return this;
+    }
 
 }
