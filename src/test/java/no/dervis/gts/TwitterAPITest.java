@@ -10,6 +10,7 @@ import twitter4j.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -31,7 +32,7 @@ class TwitterAPITest {
     void showUser() throws TwitterException {
         User user = makeTestUser(1);
 
-        Twitter twitterMock = Mockito.mock(Twitter.class);
+        Twitter twitterMock = mock(Twitter.class);
         when(twitterMock.showUser(anyString())).thenReturn(user);
 
         TwitterStats stats = new TwitterStats(new TwitterAPI(twitterMock));
@@ -41,7 +42,7 @@ class TwitterAPITest {
 
     @Test
     void showUserShouldThrowException() throws TwitterException {
-        Twitter twitterMock = Mockito.mock(Twitter.class);
+        Twitter twitterMock = mock(Twitter.class);
         when(twitterMock.showUser(anyString())).thenThrow(new TwitterException(""));
 
         TwitterStats stats = new TwitterStats(new TwitterAPI(twitterMock));
@@ -54,22 +55,17 @@ class TwitterAPITest {
     @Test
     void getFollowers() throws TwitterException {
 
-        final AtomicInteger integer = new AtomicInteger();
-
-        Supplier<Stream<User>> supplier = () -> Stream.generate(() -> makeTestUser(integer.incrementAndGet())).limit(2);
+        Function<AtomicInteger, Stream<User>> func = i -> Stream.generate(() -> makeTestUser(i.getAndIncrement())).limit(2);
 
         PagableResponseList page1 = mock(PagableResponseList.class);
         when(page1.getNextCursor()).thenReturn(1L);
-        when(page1.stream()).then(invocationOnMock -> supplier.get());
+        when(page1.stream()).then(invocationOnMock -> func.apply(new AtomicInteger(1)));
 
         PagableResponseList page2 = mock(PagableResponseList.class);
         when(page2.getNextCursor()).thenReturn(0L);
-        when(page2.stream()).then(invocationOnMock -> {
-            integer.set(0);
-            return supplier.get();
-        });
+        when(page2.stream()).then(invocationOnMock -> func.apply(new AtomicInteger(3)));
 
-        Twitter twitterMock = Mockito.mock(Twitter.class);
+        Twitter twitterMock = mock(Twitter.class);
         when(twitterMock.getFollowersList(anyString(), eq(-1L), anyInt())).thenReturn(page1);
         when(twitterMock.getFollowersList(anyString(), eq(1L), anyInt())).thenReturn(page2);
 
