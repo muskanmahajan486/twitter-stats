@@ -9,17 +9,26 @@ import java.util.Objects;
 
 public class DataIO {
 
-    private static final String dataFolder = "./data";
+    public static final String dataFolder = "./data";
+    public static final String defaultFilename = "twitter.stats.data";
     private static final String fileName = "twitter.stats";
     private static final String fileExtension = "data";
     private static final String dateTimePattern = "yyyy-MM-dd-HH-mm-AA";
 
-    public static <T> T readFile(Class<? extends T> clazz, String file) {
+    /**
+     * Reads in an object from a file.
+     *
+     * @param clazz The type of object that was saved.
+     * @param filePath The location of the file.
+     * @param <T> Type of object returned from this method.
+     * @return The object that was saved.
+     */
+    public static <T> T readFile(Class<? extends T> clazz, String filePath) {
         T t;
 
         try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream oos = new ObjectInputStream(fis);
+            FileInputStream input = new FileInputStream(filePath);
+            ObjectInputStream oos = new ObjectInputStream(input);
             t = clazz.cast(oos.readObject());
         } catch (IOException | ClassNotFoundException | ClassCastException e) {
             throw new RuntimeException("Could not read input file.", e);
@@ -29,7 +38,7 @@ public class DataIO {
     }
 
     /**
-     * Saves an object to a file named twitter.stats.data.
+     * Saves an object to a file at the given <code>folder</code>.
      *
      * @param object The object to save
      * @param folder The destination folder to save to
@@ -55,8 +64,8 @@ public class DataIO {
         }
 
         try {
-            FileOutputStream fout = new FileOutputStream(outputFile);
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            FileOutputStream output = new FileOutputStream(outputFile);
+            ObjectOutputStream oos = new ObjectOutputStream(output);
             oos.writeObject(object);
         } catch (IOException e) {
             throw new RuntimeException("Could not create output file.", e);
@@ -65,10 +74,34 @@ public class DataIO {
         return outputFile;
     }
 
+    /**
+     * Saves an object to a file named <code>twitter.stats-YEAR-MONTH-DAY-TIME.data</code>
+     * in a directory given by the <code>folder</code> argument.
+     *
+     * @param object The object to save.
+     * @return The File object to the save file.
+     */
+    public static File saveAsNewFile(Object object, String folder) {
+        return DataIO.saveAsFile(object, folder, true);
+    }
+
+    /**
+     * Saves an object to a file named <code>twitter.stats-YEAR-MONTH-DAY-TIME.data</code>.
+     *
+     * @param object The object to save.
+     * @return The File object to the save file.
+     */
     public static File saveAsNewFile(Object object) {
         return DataIO.saveAsFile(object, dataFolder, true);
     }
 
+    /**
+     * Saves an object to a file named <code>twitter.stats.data</code>.
+     * If the file exists, it will be overwritten.
+     *
+     * @param object The object to save.
+     * @return The File object to the save file.
+     */
     public static File saveAsFile(Object object) {
         return DataIO.saveAsFile(object, dataFolder, false);
     }

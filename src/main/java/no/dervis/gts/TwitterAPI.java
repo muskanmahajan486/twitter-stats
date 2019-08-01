@@ -43,7 +43,6 @@ public class TwitterAPI {
      */
     private List<PagableResponseList<User>> followers(final String screenName, long cursor,
                                                       List<PagableResponseList<User>> list) {
-
         if (cursor == 0) {
             return list;
         }

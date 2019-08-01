@@ -6,6 +6,8 @@ import no.dervis.gts.database.DataIO;
 import no.dervis.gts.database.TwitterStatDb;
 import twitter4j.TwitterFactory;
 
+import java.nio.file.Paths;
+
 import static no.dervis.gts.configuration.AuthConfiguration.configureWithAccessToken;
 
 public class Main {
@@ -15,10 +17,20 @@ public class Main {
         TwitterAPI api = new TwitterAPI(new TwitterFactory(configureWithAccessToken()).getInstance());
         TwitterStats stats = new TwitterStats(api);
 
-        DataIO.saveAsFile(
+        /*DataIO.saveAsFile(
                 new TwitterStatDb()
                         .addFollowers(stats.getFollowers("abcd"))
-        );
+        );*/
+
+        final String filePath = Paths.get(DataIO.dataFolder, DataIO.defaultFilename).normalize().toString();
+        System.out.println(filePath);
+
+        final TwitterStatDb db = DataIO.readFile(TwitterStatDb.class,
+                filePath)
+                .sortData()
+                .reverseOrder();
+        System.out.println(db);
+
     }
 
 }
