@@ -5,6 +5,7 @@ import twitter4j.User;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,10 @@ public class SnapShot implements Serializable, Comparable<SnapShot> {
     private List<User> followers;
 
     private LocalDateTime dateTime;
+
+    public SnapShot() {
+        this(new LinkedList<>());
+    }
 
     public SnapShot(List<User> followers) {
         this.followers = followers;

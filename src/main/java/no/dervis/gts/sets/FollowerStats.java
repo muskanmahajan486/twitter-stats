@@ -14,7 +14,7 @@ public class FollowerStats {
      */
     public static <T> List<T> getDifference(List<T> oldSet, List<T> newSet) {
         return oldSet.stream()
-                .filter(newSet::contains)
+                .filter(val -> !newSet.contains(val))
                 .collect(Collectors.toList());
     }
 

@@ -1,12 +1,11 @@
 package no.dervis.gts.database;
 
-import twitter4j.User;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TwitterStatDb implements Serializable {
 
@@ -27,11 +26,6 @@ public class TwitterStatDb implements Serializable {
         return this;
     }
 
-    public TwitterStatDb addFollowers(List<User> list) {
-        data.add(new SnapShot(list));
-        return this;
-    }
-
     public List<SnapShot> getData() {
         return data;
     }
@@ -41,8 +35,7 @@ public class TwitterStatDb implements Serializable {
      * @return This instance.
      */
     public TwitterStatDb sortData() {
-        data.sort(SnapShot::compareTo);
-        return this;
+        return new TwitterStatDb(data.stream().sorted(SnapShot::compareTo).collect(Collectors.toList()));
     }
 
     /**
@@ -50,8 +43,9 @@ public class TwitterStatDb implements Serializable {
      * @return The reversed list.
      */
     public TwitterStatDb reverseOrder() {
-        Collections.reverse(data);
-        return this;
+        List<SnapShot> reversed = new LinkedList<>(data);
+        Collections.reverse(reversed);
+        return new TwitterStatDb(reversed);
     }
 
     public Optional<SnapShot> first() {
