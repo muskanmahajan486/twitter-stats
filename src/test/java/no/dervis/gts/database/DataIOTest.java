@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DataIOTest implements Serializable {
+    private static final long serialVersionUID = -641731695413538871L;
 
     @Test
     void saveAsFileAndReadObject() throws IOException {
@@ -35,6 +36,7 @@ class DataIOTest implements Serializable {
     }
 
     class TestClass implements Serializable {
+        private static final long serialVersionUID = 6806605198088289511L;
         private String text;
 
         TestClass(String text) {

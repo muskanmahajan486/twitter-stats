@@ -1,6 +1,7 @@
 package no.dervis.gts.database;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +15,10 @@ public class DataIO {
     private static final String fileName = "twitter.stats";
     private static final String fileExtension = "data";
     private static final String dateTimePattern = "yyyy-MM-dd-HH-mm-AA";
+
+    public static boolean defaultDbFileExists() {
+        return Files.isReadable(Paths.get(DataIO.dataFolder, DataIO.defaultFilename).toAbsolutePath());
+    }
 
     /**
      * Reads in an object from a file.
@@ -57,7 +62,7 @@ public class DataIO {
             filename = String.format("%s/%s.%s.%s", folder, fileName, formattedDate, fileExtension);
         }
 
-        File outputFile = new File(Paths.get(filename).normalize().toString());
+        File outputFile = new File(Paths.get(filename).toAbsolutePath().toString());
 
         if (Objects.nonNull(outputFile.getParent()) && outputFile.getParentFile().mkdirs()) {
             System.out.println("Created data folder: " + outputFile.getParent());

@@ -17,11 +17,6 @@ public class Main {
         TwitterAPI api = new TwitterAPI(new TwitterFactory(configureWithAccessToken()).getInstance());
         TwitterStats stats = new TwitterStats(api);
 
-        /*DataIO.saveAsFile(
-                new TwitterStatDb()
-                        .addFollowers(stats.getFollowers("abcd"))
-        );*/
-
         final String filePath = Paths.get(DataIO.dataFolder, DataIO.defaultFilename).normalize().toString();
         System.out.println(filePath);
 
@@ -30,6 +25,11 @@ public class Main {
                 .sortData()
                 .reverseOrder();
         System.out.println(db);
+
+        /*DataIO.saveAsFile(
+                new TwitterStatDb()
+                        .addFollowers(stats.getFollowers("abcd"))
+        );*/
 
     }
 
