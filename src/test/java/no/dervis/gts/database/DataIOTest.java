@@ -21,7 +21,7 @@ class DataIOTest implements Serializable {
         final String data = "twitter stats data test";
 
         assertDoesNotThrow(() -> {
-            final File savedFile = DataIO.saveAsFile(new TestClass(data), tempDirectory.toString(), false);
+            final File savedFile = DataIO.saveAsFile(new TestClass(data), tempDirectory.toString());
 
             assertTrue(Files.isReadable(Paths.get(savedFile.getAbsolutePath())));
 

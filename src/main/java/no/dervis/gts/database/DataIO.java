@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Objects;
 
@@ -14,7 +13,8 @@ public class DataIO {
     public static final String defaultFilename = "twitter.stats.data";
     private static final String fileName = "twitter.stats";
     private static final String fileExtension = "data";
-    private static final String dateTimePattern = "yyyy-MM-dd-HH-mm-AA";
+    public static final String dateTimePattern = "yyyy-MM-dd-HH-mm-A";
+    private static final String separator = File.pathSeparator;
 
     public static boolean defaultDbFileExists() {
         return Files.isReadable(Paths.get(DataIO.dataFolder, DataIO.defaultFilename).toAbsolutePath());
@@ -43,24 +43,20 @@ public class DataIO {
     }
 
     /**
-     * Saves an object to a file at the given <code>folder</code>.
+     * Saves an object to a file named <code>twitter.stats-YEAR-MONTH-DAY-TIME.data</code>
+     * in a directory given by the <code>folder</code> argument.
      *
      * @param object The object to save
      * @param folder The destination folder to save to
-     * @param newFile If true, create a new file, otherwise replace existing file.
      * @see DateTimeFormatterBuilder#appendPattern(String)
      */
-    public static File saveAsFile(Object object, String folder, boolean newFile) {
+    public static File saveAsFile(Object object, String folder) {
         Objects.requireNonNull(object);
         Objects.requireNonNull(folder);
 
-        String filename = String.format("%s/%s.%s", folder, fileName, fileExtension);
-        if (newFile) {
-            LocalDateTime date = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.now();
 
-            String formattedDate = date.format(DateTimeFormatter.ofPattern(dateTimePattern));
-            filename = String.format("%s/%s.%s.%s", folder, fileName, formattedDate, fileExtension);
-        }
+        String filename = String.format("%s%s%s.%s", folder, separator, fileName, fileExtension);
 
         File outputFile = new File(Paths.get(filename).toAbsolutePath().toString());
 
@@ -80,27 +76,6 @@ public class DataIO {
     }
 
     /**
-     * Saves an object to a file named <code>twitter.stats-YEAR-MONTH-DAY-TIME.data</code>
-     * in a directory given by the <code>folder</code> argument.
-     *
-     * @param object The object to save.
-     * @return The File object to the save file.
-     */
-    public static File saveAsNewFile(Object object, String folder) {
-        return DataIO.saveAsFile(object, folder, true);
-    }
-
-    /**
-     * Saves an object to a file named <code>twitter.stats-YEAR-MONTH-DAY-TIME.data</code>.
-     *
-     * @param object The object to save.
-     * @return The File object to the save file.
-     */
-    public static File saveAsNewFile(Object object) {
-        return DataIO.saveAsFile(object, dataFolder, true);
-    }
-
-    /**
      * Saves an object to a file named <code>twitter.stats.data</code>.
      * If the file exists, it will be overwritten.
      *
@@ -108,7 +83,7 @@ public class DataIO {
      * @return The File object to the save file.
      */
     public static File saveAsFile(Object object) {
-        return DataIO.saveAsFile(object, dataFolder, false);
+        return DataIO.saveAsFile(object, dataFolder);
     }
 
 }

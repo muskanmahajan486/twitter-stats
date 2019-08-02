@@ -59,7 +59,7 @@ public class SnapShot implements Serializable, Comparable<SnapShot> {
         return "SnapShot{" +
                 String.format("followers (%s) = %s", screenNames.size(),
                         (screenNames.size() > trunk ? screenNames.subList(0, trunk) + " plus " + (screenNames.size() - trunk) + " more" : screenNames)) +
-                ", dateTime=" + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-AA")) +
+                ", dateTime=" + dateTime.format(DateTimeFormatter.ofPattern(DataIO.dateTimePattern)) +
                 "}\n";
     }
 }
