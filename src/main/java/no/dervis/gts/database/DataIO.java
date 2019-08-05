@@ -3,7 +3,6 @@ package no.dervis.gts.database;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ public class DataIO {
     private static final String fileName = "twitter.stats";
     private static final String fileExtension = "data";
     public static final String dateTimePattern = "yyyy-MM-dd-HH-mm-A";
-    private static final String separator = File.pathSeparator;
+    private static final String separator = File.separator;
 
     public static boolean defaultDbFileExists() {
         return Files.isReadable(Paths.get(DataIO.dataFolder, DataIO.defaultFilename).toAbsolutePath());
@@ -53,8 +52,6 @@ public class DataIO {
     public static File saveAsFile(Object object, String folder) {
         Objects.requireNonNull(object);
         Objects.requireNonNull(folder);
-
-        LocalDateTime date = LocalDateTime.now();
 
         String filename = String.format("%s%s%s.%s", folder, separator, fileName, fileExtension);
 
