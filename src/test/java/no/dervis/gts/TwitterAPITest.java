@@ -49,7 +49,7 @@ class TwitterAPITest {
 
         TwitterStats stats = new TwitterStats(new TwitterAPI(TestUtils.setupPagableResponsListMock()));
 
-        List<User> followers = stats.getFollowers("test");
+        List<User> followers = stats.getFollowerUserList("test");
 
         assertNotNull(followers);
         assertEquals(4, followers.size());
@@ -60,7 +60,7 @@ class TwitterAPITest {
 
         TwitterStats stats = new TwitterStats(new TwitterAPI(TestUtils.setupPagableResponsListMock()));
 
-        List<String> followersList = stats.getFollowersList("");
+        List<String> followersList = stats.getFollowerScreenNames("");
         assertNotNull(followersList);
         assertEquals(Arrays.asList("test1", "test2", "test3", "test4"), followersList);
     }

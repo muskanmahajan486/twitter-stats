@@ -35,7 +35,7 @@ public class Main {
         }
 
         // fetch new list
-        final SnapShot snapShot = new SnapShot(stats.getFollowers("abcd"));
+        final SnapShot snapShot = new SnapShot(stats.getFollowerUserList("abcd"));
 
         // fetch the previous list
         final List<String> previous = db.sortData().reverseOrder().first().orElse(new SnapShot()).getFollowerScreenNames();

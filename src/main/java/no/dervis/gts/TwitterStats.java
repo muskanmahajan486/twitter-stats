@@ -17,12 +17,12 @@ public class TwitterStats {
         return api.showUser(screenName);
     }
 
-    public List<User> getFollowers(String screenName) {
+    public List<User> getFollowerUserList(String screenName) {
         return api.getFollowers(screenName);
     }
 
-    public List<String> getFollowersList(String screenName) {
-        return getFollowers(screenName)
+    public List<String> getFollowerScreenNames(String screenName) {
+        return getFollowerUserList(screenName)
                 .stream()
                 .map(User::getScreenName)
                 .collect(Collectors.toList());
