@@ -39,11 +39,11 @@ public class Main {
 
         // fetch the previous list
         final List<String> previous = db.sortData().reverseOrder().first().orElse(new SnapShot()).getFollowerScreenNames();
-        final List<String> lastest = snapShot.getFollowerScreenNames();
+        final List<String> latest = snapShot.getFollowerScreenNames();
 
         // collect stats
-        final List<String> lostFollowers = FollowerStats.getDifference(previous, lastest);
-        final List<String> gainedFollowers = FollowerStats.getDifference(lastest, previous);
+        final List<String> lostFollowers = FollowerStats.getDifference(previous, latest);
+        final List<String> gainedFollowers = FollowerStats.getDifference(latest, previous);
 
         System.out.println(format("You lost %s followers", lostFollowers.size()));
         System.out.println(lostFollowers);

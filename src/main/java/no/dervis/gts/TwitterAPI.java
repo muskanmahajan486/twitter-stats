@@ -58,11 +58,11 @@ public class TwitterAPI {
 
 
     /**
-     * Handles checked exceptions from a functions.
+     * Handles checked exceptions from a function.
      * @param function Any callable function that might throw an exception
      * @param msg The log message to supply with the stacktrace.
      * @param <R> The generic type of the return value.
-     * @return
+     * @return Result of the function call
      */
     private <R> R callTwitterAPI(final Callable<R> function, final String msg) {
         try {
