@@ -14,7 +14,7 @@
 
         <junit5Version>5.4.2</junit5Version>
         <fluenthc>4.5.9</fluenthc>
-        <jackson>2.9.9</jackson>
+        <jackson>2.9.10.1</jackson>
         <logback>1.2.3</logback>
         <sparkjava>2.9.1</sparkjava>
     </properties>
